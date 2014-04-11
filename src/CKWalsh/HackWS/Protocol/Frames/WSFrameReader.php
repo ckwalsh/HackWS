@@ -114,7 +114,7 @@ class WSFrameReader {
 
           $this->frame->maskingKey = substr($this->buffer, $this->pos, 4);
 
-          $this->pos += 2;
+          $this->pos += 4;
         }
 
         $this->state++;
@@ -139,7 +139,7 @@ class WSFrameReader {
 
           for ($i = 0; $i < $this->framePayloadLength; $i++) {
             $this->frame->payload[$i] = chr(
-              ord($this->frame->payload[$i]) & ord($key[$i % 4])
+              ord($this->frame->payload[$i]) ^ ord($key[$i % 4])
             );
           }
         }
