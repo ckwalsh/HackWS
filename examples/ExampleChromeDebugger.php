@@ -11,11 +11,7 @@
 //
 // https://developers.google.com/chrome-developer-tools/docs/debugger-protocol
 
-require_once('autoload.php');
-
-$classLoader = new SplClassLoader();
-$classLoader->setIncludePath('../src');
-$classLoader->register();
+require_once(__DIR__.'/../vendor/autoload.php');
 
 class ChromeDebuggerTest {
   private Vector<Map<string, mixed>> $navHistory = Vector {};

@@ -2,8 +2,6 @@
 
 namespace CKWalsh\HackWS\Protocol\Frames;
 
-require_once(__DIR__.'/../../../../../vendor/autoload.php');
-
 use \PHPUnit_Framework_TestCase;
 
 class WSFrameTest extends PHPUnit_Framework_TestCase {
