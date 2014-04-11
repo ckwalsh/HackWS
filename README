@@ -1,0 +1,25 @@
+This is a library for websockets clients written in Hack. It is inspired by the
+phpws project (https://github.com/Devristo/phpws) to try and make it easy to
+interact with websocket servers in Hack.
+
+Major Differences from phpws:
+ * Written in Hack strict
+   * Everything is strongly typed
+   * Uses async functions to simulate event loops
+ * No External Dependencies
+ * Only supports RFC 6455 Websockets
+ * No Websocket Server support
+ * No composer support (yet)
+ * Probably has more bugs
+
+Planned Features:
+ * Examples. There's only one, using the Chrome Debugger Protocol
+ * Comments. There really aren't any
+ * Tests. There definitely aren't any
+
+Known Problems:
+ * This library uses classes not present in the Hack hhi files at the time I am
+   writing this. You will need to manually add SplQueue and JSON_FB_COLLECTIONS
+   entries
+
+This project is licensed under the MIT License
