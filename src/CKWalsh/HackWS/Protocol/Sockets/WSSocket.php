@@ -96,7 +96,7 @@ class WSSocket {
   public function connect(
     float $timeout = self::DEFAULT_CONNECT_TIMEOUT,
   ): void {
-    return $this->asyncConnect($timeout)->getWaitHandle()->join();
+    $this->asyncConnect($timeout)->getWaitHandle()->join();
   }
 
   public async function asyncClose(int $close_status = 1000): Awaitable<void> {
@@ -143,11 +143,11 @@ class WSSocket {
   }
 
   public function close(): void {
-    return $this->asyncClose()->getWaitHandle()->join();
+    $this->asyncClose()->getWaitHandle()->join();
   }
 
   public function closeImmediately(): void {
-    return $this->asyncCloseImmediately()->getWaitHandle()->join();
+    $this->asyncCloseImmediately()->getWaitHandle()->join();
   }
 
   public async function asyncRead(): Awaitable<?WSFrame> {
