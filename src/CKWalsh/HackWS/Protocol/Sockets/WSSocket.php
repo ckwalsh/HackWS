@@ -113,9 +113,13 @@ class WSSocket {
     $this->state = WSSocketStateEnum::DISCONNECTING_WAIT;
 
     $close_frame = null;
-    while ($close_frame === null
-           || $close_frame->opcode != WSFrameOpcodeEnum::CTRL_CLOSE) {
-      $close_frame = await $this->asyncReadImpl(false);
+    try {
+      while ($close_frame === null
+             || $close_frame->opcode != WSFrameOpcodeEnum::CTRL_CLOSE) {
+        $close_frame = await $this->asyncReadImpl(false);
+      }
+    } catch (WSSocketException $ex) {
+      // The server didn't send us a close frame, bad server!
     }
 
     fclose($this->socket);
@@ -162,8 +166,12 @@ class WSSocket {
       if ($check_state && $this->state !== WSSocketStateEnum::CONNECTED) {
         return null;
       }
-      $frame = await $this->asyncReadNonBlocking();
+      $throw = feof($this->socket);
+      $frame = await $this->asyncReadNonBlockingImpl($check_state);
       if ($frame === null) {
+        if ($throw) {
+          throw new WSSocketException('Unable to read frame, socket is closed');
+        }
         await SleepWaitHandle::create(1);
       }
     }
@@ -179,10 +187,6 @@ class WSSocket {
     bool $check_state = true,
   ): Awaitable<?WSFrame> {
     if ($check_state && $this->state !== WSSocketStateEnum::CONNECTED) {
-      return null;
-    }
-
-    if (feof($this->socket)) {
       return null;
     }
 
